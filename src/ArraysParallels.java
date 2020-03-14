@@ -6,15 +6,15 @@ class ArraysParallels {
 
     public ArraysParallels() {
         this.arr = new double[SIZE];
-        for (double a:arr) {
-            a = 1.0;
+        for (int i = 0; i<SIZE; i++) {
+            arr[i]=1;
         }
         this.initialTime = System.currentTimeMillis();
     }
 
     public void singleThread () {
         for (int i=0; i<SIZE; i++) {
-            arr [i] = (arr[i] * Math.sin(0.2 + i / 5) * Math.cos(0.2 + i / 5) * Math.cos(0.4 + i / 2));
+            arr[i] = (arr[i] * Math.sin(0.2 + (double) i / 5) * Math.cos(0.2 + (double) i / 5) * Math.cos(0.4 + (double) i / 2));
         }
         System.out.println("singleThread time: " + (System.currentTimeMillis() - initialTime));
     }
@@ -30,7 +30,7 @@ class ArraysParallels {
         Thread t1 = new Thread(()-> {
             for (int i=0; i<half; i++)
             {
-            arr1[i] = (arr1[i] * Math.sin(0.2 + i / 5) * Math.cos(0.2 + i / 5) * Math.cos(0.4 + i / 2));
+                arr1 [i] = (arr1 [i] * Math.sin(0.2 + (double) i / 5) * Math.cos(0.2 + (double) i / 5) * Math.cos(0.4 + (double) i / 2));
             }
             System.out.println("Thread1 time: " + (System.currentTimeMillis()-initialTime));
         });
@@ -38,7 +38,7 @@ class ArraysParallels {
         Thread t2 = new Thread(()-> {
             for (int i=0; i<half; i++)
             {
-                arr1[i] = (arr1[i] * Math.sin(0.2 + (half + i) / 5) * Math.cos(0.2 + (half + i) / 5) * Math.cos(0.4 + (half + i) / 2));
+                arr2[i] = (arr2[i] * Math.sin(0.2 + (double) (half + i) / 5) * Math.cos(0.2 + (double) (half + i) / 5) * Math.cos(0.4 + (double) (half + i) / 2));
             }
             System.out.println("Thread2 time: " + (System.currentTimeMillis()-initialTime));
         });
@@ -52,6 +52,9 @@ class ArraysParallels {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        System.arraycopy(arr1,0,arr3,0,half);
+        System.arraycopy(arr2,0,arr3,half,half);
         System.out.println("doubleThread time: " + (System.currentTimeMillis()-initialTime));
 
     }
